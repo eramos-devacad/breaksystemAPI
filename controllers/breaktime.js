@@ -1,8 +1,11 @@
 const ErrorResponse = require('../utils/errorResponse');
 const asyncHandler = require('../middleware/async');
+
+const moment = require('moment');
+
 const Breaktime = require('../models/Breaktime');
 const Break = require('../models/Break');
-const moment = require('moment');
+const User = require('../models/User');
 
 //@desc Get User breaktimes
 //@route GET /api/v1/breaktime/me/breaks
@@ -95,6 +98,15 @@ exports.createBreaktime = asyncHandler(async (req, res, next) => {
     );
   }
 
+  const user = await User.findByIdAndUpdate(
+    req.user.id,
+    { currentBreaktime: req.body.break },
+    {
+      new: true,
+      runValidators: true,
+    },
+  );
+
   const breaktime = await Breaktime.create(req.body);
   res.status(201).json({
     success: true,
@@ -130,6 +142,15 @@ exports.updateBreaktime = asyncHandler(async (req, res, next) => {
   } else {
     req.body.overbreak = false;
   }
+
+  const user = await User.findByIdAndUpdate(
+    req.user.id,
+    { currentBreaktime: null },
+    {
+      new: true,
+      runValidators: true,
+    },
+  );
 
   breaktime = await Breaktime.findByIdAndUpdate(req.params.id, req.body, {
     new: true,

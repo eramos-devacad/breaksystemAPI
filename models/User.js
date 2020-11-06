@@ -37,6 +37,11 @@ const UserSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
+  currentBreaktime: {
+    type: mongoose.Schema.ObjectId,
+    ref: 'BreakTime',
+    default: null,
+  },
 });
 
 //Encrypt password using bcrypt
