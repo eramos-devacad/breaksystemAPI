@@ -70,7 +70,7 @@ const sendTokenResponse = (user, statusCode, res) => {
   });
 };
 
-//@desc Get current
+//@desc Get current user
 //@route POST /api/v1/auth/me
 //@acess Private
 exports.getMe = asyncHandler(async (req, res, next) => {
@@ -80,4 +80,11 @@ exports.getMe = asyncHandler(async (req, res, next) => {
     success: true,
     data: user,
   });
+});
+
+//@desc Get All user
+//@route POST /api/v1/auth/me
+//@acess Private Admin Only
+exports.getUsers = asyncHandler(async (req, res, next) => {
+  res.status(200).json(res.advancedResults);
 });
