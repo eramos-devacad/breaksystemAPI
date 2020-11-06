@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const moment = require('moment');
 const Break = require('./Break');
+const User = require('./User');
 
 const BreaktimeSchema = new mongoose.Schema({
   start: {

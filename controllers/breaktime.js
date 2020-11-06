@@ -77,6 +77,15 @@ exports.getBreaktime = asyncHandler(async (req, res, next) => {
 //@route POST /api/v1/breaktime
 //@acess Private
 exports.createBreaktime = asyncHandler(async (req, res, next) => {
+  const me = await User.findById(req.user.id);
+  console.log(me.currentBreaktime, 'user');
+
+  if (me.currentBreaktime) {
+    return next(
+      new ErrorResponse(`User ${me.fname} is currently on break.`, 403),
+    );
+  }
+
   //Add user to req.body
   req.body.user = req.user.id;
 
@@ -98,16 +107,17 @@ exports.createBreaktime = asyncHandler(async (req, res, next) => {
     );
   }
 
+  const breaktime = await Breaktime.create(req.body);
+
   const user = await User.findByIdAndUpdate(
     req.user.id,
-    { currentBreaktime: req.body.break },
+    { currentBreaktime: breaktime._id },
     {
       new: true,
       runValidators: true,
     },
   );
 
-  const breaktime = await Breaktime.create(req.body);
   res.status(201).json({
     success: true,
     data: breaktime,
@@ -118,6 +128,13 @@ exports.createBreaktime = asyncHandler(async (req, res, next) => {
 //@route PUT /api/v1/breaktime/:id
 //@acess Private
 exports.updateBreaktime = asyncHandler(async (req, res, next) => {
+  const me = await User.findById(req.user.id);
+  console.log(me.currentBreaktime, 'user');
+
+  if (me.currentBreaktime) {
+    return next(new ErrorResponse(`User ${me.fname} is not on break.`, 403));
+  }
+
   const endTime = moment();
   req.body.end = endTime;
 
@@ -143,6 +160,11 @@ exports.updateBreaktime = asyncHandler(async (req, res, next) => {
     req.body.overbreak = false;
   }
 
+  breaktime = await Breaktime.findByIdAndUpdate(req.params.id, req.body, {
+    new: true,
+    runValidators: true,
+  });
+
   const user = await User.findByIdAndUpdate(
     req.user.id,
     { currentBreaktime: null },
@@ -151,11 +173,6 @@ exports.updateBreaktime = asyncHandler(async (req, res, next) => {
       runValidators: true,
     },
   );
-
-  breaktime = await Breaktime.findByIdAndUpdate(req.params.id, req.body, {
-    new: true,
-    runValidators: true,
-  });
 
   res.status(200).json({ success: true, data: breaktime });
 });
