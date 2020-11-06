@@ -1,0 +1,29 @@
+[
+  {
+    "_id": "1f9f9d850afdc9102c7dffe6",
+    "fname": "Eric",
+    "lname": "Ramos",
+    "email": "eric@gmail.com",
+    "password": "123456",
+    "role": "user",
+    "date_registered": "10-30-2020"
+  },
+  {
+    "_id": "1f9f9d850afdc9102c7dffe7",
+    "fname": "Jayson",
+    "lname": "Balicat",
+    "email": "jayson@gmail.com",
+    "password": "123456",
+    "role": "user",
+    "date_registered": "10-30-2020"
+  },
+  {
+    "_id": "1f9f9d850afdc9102c7dffe8",
+    "fname": "Jv",
+    "lname": "Perales",
+    "email": "jv@gmail.com",
+    "password": "123456",
+    "role": "user",
+    "date_registered": "10-30-2020"
+  }
+]

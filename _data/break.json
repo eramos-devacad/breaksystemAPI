@@ -1,0 +1,26 @@
+[
+  {
+    "_id": "4f9f9d850afdc9102c7dffe6",
+    "name": "Lunch",
+    "lengthOfBreak": 60,
+    "times": 1,
+    "gracePeriod": 5,
+    "date": "10-30-2020"
+  },
+  {
+    "_id": "4f9f9d850afdc9102c7dffe7",
+    "name": "Coffee",
+    "lengthOfBreak": 15,
+    "times": 2,
+    "gracePeriod": 5,
+    "date": "10-30-2020"
+  },
+  {
+    "_id": "4f9f9d850afdc9102c7dffe8",
+    "name": "OT",
+    "lengthOfBreak": 10,
+    "times": 2,
+    "gracePeriod": 2,
+    "date": "10-30-2020"
+  }
+]

@@ -1,0 +1,29 @@
+[
+  {
+    "_id": "5f9f9d850afdc9102c7dffe6",
+    "user": "1f9f9d850afdc9102c7dffe6",
+    "break": "4f9f9d850afdc9102c7dffe6",
+    "start": "14:00",
+    "end": "14:45",
+    "date": "10-30-2020",
+    "overbreak": false
+  },
+  {
+    "_id": "5f9f9d850afdc9102c7dffe7",
+    "user": "1f9f9d850afdc9102c7dffe7",
+    "break": "4f9f9d850afdc9102c7dffe6",
+    "start": "14:00",
+    "end": "15:45",
+    "date": "10-30-2020",
+    "overbreak": true
+  },
+  {
+    "_id": "5f9f9d850afdc9102c7dffe8",
+    "user": "1f9f9d850afdc9102c7dffe8",
+    "break": "4f9f9d850afdc9102c7dffe6",
+    "start": "14:00",
+    "end": "14:59",
+    "date": "10-30-2020",
+    "overbreak": false
+  }
+]
