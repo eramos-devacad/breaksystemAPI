@@ -142,7 +142,7 @@ exports.createBreaktime = asyncHandler(async (req, res, next) => {
 //@acess Private
 exports.updateBreaktime = asyncHandler(async (req, res, next) => {
   const me = await User.findById(req.user.id);
-  console.log(me.currentBreaktime, 'user');
+  // console.log(me.currentBreaktime, 'user');
 
   if (!me.currentBreaktime) {
     return next(new ErrorResponse(`User ${me.fname} is not on break.`, 403));
@@ -181,7 +181,7 @@ exports.updateBreaktime = asyncHandler(async (req, res, next) => {
 
   const user = await User.findByIdAndUpdate(
     req.user.id,
-    { currentBreaktime: null },
+    { currentBreaktime: undefined },
     {
       new: true,
       runValidators: true,
