@@ -6,6 +6,7 @@ const cookieParser = require('cookie-parser');
 const errorHandler = require('./middleware/error');
 const connectDB = require('./config/db');
 const cors = require('cors');
+const emailSender = require('./controllers/emailSender');
 
 //Load env vars
 dotenv.config({ path: './config/config.env' });
@@ -39,6 +40,8 @@ app.use('/api/v1/breaktime', breaktime);
 app.use('/api/v1/breaks', breaks);
 
 app.use(errorHandler);
+
+emailSender();
 
 const PORT = process.env.PORT || 5000;
 

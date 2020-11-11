@@ -2,10 +2,20 @@ const ErrorResponse = require('../utils/errorResponse');
 const asyncHandler = require('../middleware/async');
 
 const moment = require('moment');
+const nodemailer = require('nodemailer');
 
 const Breaktime = require('../models/Breaktime');
 const Break = require('../models/Break');
 const User = require('../models/User');
+
+// email sender credentials
+const transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: 'eramos.devacad@gmail.com',
+    pass: 'ericramos06301994',
+  },
+});
 
 //@desc Get User breaktimes
 //@route GET /api/v1/breaktime/me/breaks
@@ -90,7 +100,8 @@ exports.createBreaktime = asyncHandler(async (req, res, next) => {
   req.body.user = req.user.id;
 
   const breaks = await Break.findById(req.body.break);
-  // console.log(breaks, 'date');
+  console.log(breaks.name, 'break name');
+  req.body.breakname = breaks.name;
 
   const takenBreak = await Breaktime.find({
     user: req.user.id,
@@ -106,6 +117,8 @@ exports.createBreaktime = asyncHandler(async (req, res, next) => {
       ),
     );
   }
+
+  req.body.username = `${me.fname} ${me.lname}`;
 
   const breaktime = await Breaktime.create(req.body);
 
@@ -131,11 +144,11 @@ exports.updateBreaktime = asyncHandler(async (req, res, next) => {
   const me = await User.findById(req.user.id);
   console.log(me.currentBreaktime, 'user');
 
-  if (me.currentBreaktime) {
+  if (!me.currentBreaktime) {
     return next(new ErrorResponse(`User ${me.fname} is not on break.`, 403));
   }
 
-  const endTime = moment();
+  const endTime = new Date();
   req.body.end = endTime;
 
   let breaktime = await Breaktime.findById(req.params.id);
@@ -150,12 +163,13 @@ exports.updateBreaktime = asyncHandler(async (req, res, next) => {
   }
 
   const expected = breaktime.expected;
-
-  console.log(endTime.toString(), 'endtime');
-  console.log(expected.toString(), 'expected');
+  const start = breaktime.start;
 
   if (endTime > expected) {
     req.body.overbreak = true;
+    diff = (endTime.getTime() - start.getTime()) / 1000;
+    diff /= 60;
+    req.body.minsLate = Math.abs(Math.round(diff));
   } else {
     req.body.overbreak = false;
   }
@@ -173,6 +187,29 @@ exports.updateBreaktime = asyncHandler(async (req, res, next) => {
       runValidators: true,
     },
   );
+
+  if (breaktime.overbreak === true) {
+    const dateToday = new Date();
+
+    //Email message option
+    const mailOptions = {
+      from: 'eramos.devacad@gmail.com',
+      to: me.email,
+      subject: 'Email from Break System',
+      text: `${dateToday.toDateString()} \n You are ${
+        breaktime.minsLate
+      }mins late on ${breaktime.breakname} break.`,
+    };
+
+    //send email
+    transporter.sendMail(mailOptions, (error, info) => {
+      if (error) {
+        console.log(error);
+      } else {
+        console.log('Email send: ' + info.response);
+      }
+    });
+  }
 
   res.status(200).json({ success: true, data: breaktime });
 });

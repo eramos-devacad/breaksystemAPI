@@ -17,11 +17,14 @@ const BreaktimeSchema = new mongoose.Schema({
     ref: 'User',
     required: true,
   },
+  username: String,
+  minsLate: Number,
   break: {
     type: mongoose.Schema.ObjectId,
     ref: 'Break',
     required: true,
   },
+  breakname: String,
 });
 
 //Get start time
