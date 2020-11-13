@@ -103,9 +103,13 @@ exports.createBreaktime = asyncHandler(async (req, res, next) => {
   console.log(breaks.name, 'break name');
   req.body.breakname = breaks.name;
 
+  const now = moment();
+  const today = now.toISOString().split('T')[0];
+
   const takenBreak = await Breaktime.find({
     user: req.user.id,
     break: req.body.break,
+    createdAt: today,
   });
   // console.log(takenBreak, 'taken break');
 
@@ -124,7 +128,7 @@ exports.createBreaktime = asyncHandler(async (req, res, next) => {
 
   const user = await User.findByIdAndUpdate(
     req.user.id,
-    { currentBreaktime: breaktime._id },
+    { currentBreaktime: breaktime._id, currentBreakId: breaks._id },
     {
       new: true,
       runValidators: true,
@@ -181,7 +185,7 @@ exports.updateBreaktime = asyncHandler(async (req, res, next) => {
 
   const user = await User.findByIdAndUpdate(
     req.user.id,
-    { currentBreaktime: undefined },
+    { currentBreaktime: undefined, currentBreakId: undefined },
     {
       new: true,
       runValidators: true,

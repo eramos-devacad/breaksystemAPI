@@ -41,7 +41,10 @@ const UserSchema = new mongoose.Schema({
   currentBreaktime: {
     type: mongoose.Schema.ObjectId,
     ref: 'BreakTime',
-    default: null,
+  },
+  currentBreakId: {
+    type: mongoose.Schema.ObjectId,
+    ref: 'Break',
   },
 });
 

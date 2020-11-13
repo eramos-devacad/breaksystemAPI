@@ -5,6 +5,7 @@ const {
   logout,
   getMe,
   getUsers,
+  getUser,
   forgotPassword,
   resetPassword,
   updateDetails,
@@ -29,5 +30,6 @@ router.put('/resetpassword/:resettoken', resetPassword);
 router
   .route('/users')
   .get(protect, authorize('admin'), advancedResults(User), getUsers);
+router.route('/users/:id').get(protect, authorize('admin'), getUser);
 
 module.exports = router;

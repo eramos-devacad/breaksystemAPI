@@ -6,7 +6,7 @@ const cookieParser = require('cookie-parser');
 const errorHandler = require('./middleware/error');
 const connectDB = require('./config/db');
 const cors = require('cors');
-const emailSender = require('./controllers/emailSender');
+const emailSender = require('./utils/emailSender');
 
 //Load env vars
 dotenv.config({ path: './config/config.env' });

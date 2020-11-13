@@ -190,10 +190,25 @@ exports.resetPassword = asyncHandler(async (req, res, next) => {
 });
 
 //@desc Get All user
-//@route POST /api/v1/auth/me
+//@route POST /api/v1/auth/users
 //@acess Private Admin Only
 exports.getUsers = asyncHandler(async (req, res, next) => {
   res.status(200).json(res.advancedResults);
+});
+
+//@desc Get Single user
+//@route POST /api/v1/auth/users/:id
+//@acess Private Admin Only
+exports.getUser = asyncHandler(async (req, res, next) => {
+  const user = await User.findById(req.params.id);
+
+  if (!user) {
+    return next(
+      new ErrorResponse(`User not found with the id of ${req.params.id}`, 404),
+    );
+  }
+
+  res.status(200).json({ success: true, data: user });
 });
 
 // Get token from model, create cookie and send response
