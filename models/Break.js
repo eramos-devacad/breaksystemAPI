@@ -26,6 +26,10 @@ const BreakSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
+  isFinished: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 module.exports = mongoose.model('Break', BreakSchema);

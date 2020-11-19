@@ -2,6 +2,7 @@ const express = require('express');
 const {
   getBreaks,
   getBreak,
+  getAllowedBreaks,
   createBreak,
   updateBreak,
   deleteBreak,
@@ -30,5 +31,7 @@ router
   .get(getBreak)
   .put(protect, authorize('admin'), updateBreak)
   .delete(protect, authorize('admin'), deleteBreak);
+
+router.route('/me/allowed-breaks').get(protect, getAllowedBreaks);
 
 module.exports = router;
