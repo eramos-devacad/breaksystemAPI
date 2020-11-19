@@ -32,16 +32,24 @@ exports.getAllUserbreaksToday = asyncHandler(async (req, res, next) => {
     }
   });
   console.log(userTodaysBreak, 'breaks today');
-  // console.log(today, 'today');
-
-  // const createdAt = breaktimes[0].createdAt;
-  // console.log(createdAt, 'createdAt');
-  // console.log(moment(today).isSame(createdAt));
 
   return res.status(200).json({
     success: true,
     count: userTodaysBreak.length,
     data: userTodaysBreak,
+  });
+});
+
+//@desc Get User breaktimes
+//@route GET /api/v1/breaktime/me/all-breaks
+//@acess Public
+exports.getAllBreaksByLoggedInUser = asyncHandler(async (req, res, next) => {
+  const breaktimes = await Breaktime.find({ user: req.user.id });
+
+  return res.status(200).json({
+    success: true,
+    count: breaktimes.length,
+    data: breaktimes,
   });
 });
 

@@ -6,6 +6,7 @@ const {
   updateBreaktime,
   deleteBreaktime,
   getAllUserbreaksToday,
+  getAllBreaksByLoggedInUser,
 } = require('../controllers/breaktime');
 
 const Breaktime = require('../models/Breaktime');
@@ -33,5 +34,6 @@ router
   .delete(protect, authorize('admin'), deleteBreaktime);
 
 router.route('/me/breaks').get(protect, getAllUserbreaksToday);
+router.route('/me/all-breaks').get(protect, getAllBreaksByLoggedInUser);
 
 module.exports = router;
