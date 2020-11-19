@@ -179,7 +179,7 @@ exports.updateBreaktime = asyncHandler(async (req, res, next) => {
 
   if (endTime > expected) {
     req.body.overbreak = true;
-    diff = (endTime.getTime() - start.getTime()) / 1000;
+    diff = (endTime.getTime() - expected.getTime()) / 1000;
     diff /= 60;
     req.body.minsLate = Math.abs(Math.round(diff));
   } else {
